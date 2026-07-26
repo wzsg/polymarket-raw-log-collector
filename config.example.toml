@@ -1,0 +1,42 @@
+[collector]
+chain_id = 137
+start_block = 33605403
+block_window = 100
+segment_blocks = 10000
+confirmations = 256
+workers = 4
+request_timeout_seconds = 60
+retries = 5
+output_dir = "data"
+state_db = "state/collector.sqlite"
+
+[rpc]
+url_env = "POLYGON_RPC_URL"
+
+[[filters]]
+name = "conditional_tokens"
+address = "0x4d97dcd97ec945f40cf65f87097ace5ea0476045"
+valid_from_block = 4023686
+event_signatures = [
+  "ConditionPreparation(bytes32,address,bytes32,uint256)",
+  "ConditionResolution(bytes32,address,bytes32,uint256,uint256[])",
+  "PositionSplit(address,address,bytes32,bytes32,uint256[],uint256)",
+  "PositionsMerge(address,address,bytes32,bytes32,uint256[],uint256)",
+  "PayoutRedemption(address,address,bytes32,bytes32,uint256[],uint256)",
+  "TransferSingle(address,address,address,uint256,uint256)",
+  "TransferBatch(address,address,address,uint256[],uint256[])",
+]
+
+[[filters]]
+name = "neg_risk_adapter_v1"
+address = "0xd91e80cf2e7be2e162c6513ced06f1dd0da35296"
+valid_from_block = 50505403
+event_signatures = [
+  "MarketPrepared(bytes32,address,uint256,bytes)",
+  "QuestionPrepared(bytes32,bytes32,uint256,bytes)",
+  "OutcomeReported(bytes32,bytes32,bool)",
+  "PositionSplit(address,bytes32,uint256)",
+  "PositionsMerge(address,bytes32,uint256)",
+  "PositionsConverted(address,bytes32,uint256,uint256)",
+  "PayoutRedemption(address,bytes32,uint256[],uint256)",
+]

@@ -1,0 +1,21 @@
+[Unit]
+Description=Polymarket raw Polygon log collector
+After=docker.service network-online.target
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+EnvironmentFile=/srv/polymarket-raw-collector/worker.env
+ExecStart=/srv/polymarket-raw-collector/run-worker.sh
+ExecStop=-/usr/bin/docker stop polymarket-raw-${WORKER_NAME}
+Restart=on-failure
+RestartSec=30
+TimeoutStartSec=infinity
+TimeoutStopSec=120
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
